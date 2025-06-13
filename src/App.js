@@ -1,42 +1,37 @@
-import { useEffect, useState } from "react";
-
+import { useState, useEffect } from "react";
 
 function App() {
-  const [input, setInput] = useState('')
-  const [tarefas, setTarefa] = useState([])
+  const [tarefas, setTarefa] = useState([]);
+  const [input, setInput] = useState('');
 
   useEffect(()=>{
-    const tarefasStorage = localStorage.getItem('@tarefas');
+    const tarefasStorage = localStorage.getItem('@tarefas')
 
     if(tarefasStorage){
       setTarefa(JSON.parse(tarefasStorage))
     }
-  }, [])
+  },[])
 
-  useEffect(()=> {
-    localStorage.setItem('@tarefas', JSON.stringify(tarefas) )
-  }, [tarefas])
+  useEffect(()=>{
+    localStorage.setItem('@tarefas', JSON.stringify(tarefas))
+  },[tarefas])
 
-  function enviaFormulario(e) {
-    e.preventDefault()
+  function registraTarefa(e) {
+    e.preventDefault();
     setTarefa([...tarefas, input])
-    setInput('')
+    setInput('');
   }
 
   return (
     <div>
-      <h1>Seja Vindo</h1>
-
-      <form onSubmit={enviaFormulario}>
-        <label>Tarefa:
-          <input type="text" value={input} onChange={(e)=> setInput(e.target.value)}></input>
-        </label>
-
-        <button type="submit">REGISTRAR</button>
+      <h1>Lista de tarefas</h1>
+      <form onSubmit={registraTarefa}>
+        <input type="text" placeholder="Digite sua tarefa" value={input} onChange={(e) => setInput(e.target.value)} /><br></br><br></br>
+        <button type="submit">Registrar</button>
       </form>
 
       <ul>
-        {tarefas.map( tarefa => (
+        {tarefas.map(tarefa => (
           <li key={tarefa}>{tarefa}</li>
         ))}
       </ul>
